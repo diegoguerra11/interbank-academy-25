@@ -3,13 +3,15 @@ import pandas as pd
 from utils.string import dict_to_str, serie_to_str
 from utils.calculate import calculate_by_grouped, count_by_column
 
-# The pandas library reads the .csv file and converts it to a data frame.
-df = pd.read_csv('data.csv')
+# The pandas library reads the .csv file and converts it to a dataframe.
+df = pd.read_csv('data/data.csv')
 
-print("Reporte de Transacciones")
-print("---------------------------------------------")
+print("""
+Reporte de Transacciones
+---------------------------------------------------------------------------------
+""")
 
-# Subtracts the amounts from the data frame based on the type (Credit - Debit)
+# Subtracts the amounts from the dataframe based on the type (Credit - Debit)
 final_balance = calculate_by_grouped(df, 'tipo', 'sub', 'monto', ['Crédito', 'Débito'])
 print(f"Balance Final: {final_balance}")
 
