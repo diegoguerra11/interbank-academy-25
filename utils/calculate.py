@@ -5,7 +5,7 @@ def add_by_column(df: DataFrame, column: str, types: list[str]) -> float:
     """ Allows the addition of the values ​​of a column according to the type 
            
         Args:
-            df (Dataframe): dataframe
+            df (pandas.Dataframe): dataframe
             column (str): column to which the addition will be applied
             categories(list[str]): categories on which the addition will be performed
 
@@ -23,7 +23,7 @@ def sub_by_column(df: DataFrame, column: str, categories: list[str]) -> float:
     """ Allows the subtraction of the values ​​of a column according to the category 
         
         Args:
-            df (Dataframe): dataframe
+            df (pandas.Dataframe): dataframe
             column (str): column to which the subtraction will be applied
             categories(list[str]): categories on which the subtraction will be performed
 
@@ -52,7 +52,7 @@ def calculate_by_grouped(
         then perform mathematical operations based on another column.
 
         Args:
-            df (Dataframe): dataframe
+            df (pandas.Dataframe): dataframe
             group_by (str): the categorical column used to group the dataframe
             operation (Literal["add", "sub"]): Mathematical operation applied to a numeric column (add -> addition or sub -> substraccion)
             column (str): numeric column the operation will be applied to
@@ -78,7 +78,7 @@ def count_by_column(df: DataFrame, column: str) -> dict:
     """ Counts the number of records by the selected column 
         
         Args:
-            df (Dataframe): dataframe
+            df (pandas.Dataframe): dataframe
             column (str): column by which the count by value will be performed
 
         Returns:
