@@ -9,10 +9,10 @@ The project carried out in the Python programming language aims to analyze a dat
 - **final balance:**  
   Sum of the amounts of "Credit" type transactions minus the sum of the amounts of "Debit" type transactions.
 
-- **Transacción de Mayor Monto:**  
+- **Transaction with the Highest Amount:**  
   Identify the ID and amount of the transaction with the highest value.
 
-- **Conteo de Transacciones:**  
+- **Transaction Count:**  
    Calculate the total number of transactions grouped by type ('Credit' and 'Debit')."
 
 ## Instrucciones de Ejecución
