@@ -1,7 +1,9 @@
 from typing import Literal
 from pandas import DataFrame
 
-def add_by_column(df: DataFrame, column: str, types: list[str]) -> float:
+from utils.validations import is_str, is_numeric, df_missing_columns, serie_missing_columns
+
+def add_by_column(df: DataFrame, column: str, categories: list[str]) -> float:
     """ Allows the addition of the values ​​of a column according to the type 
            
         Args:
@@ -12,12 +14,22 @@ def add_by_column(df: DataFrame, column: str, types: list[str]) -> float:
         Returns:
             float
     """
-    sum = 0
+    try:
+        missing = df_missing_columns(df, [column])
+        if(len(missing) > 0): raise Exception(f"The following columns do not exist in the dataframe: ", missing)
     
-    for type in types: 
-        sum += df[column][type]
+        type_mission = serie_missing_columns(df[column], categories)
+        if(len(type_mission) > 0): raise Exception(f"The following categories do not exist in the dataframe: ", type_mission)
 
-    return sum
+        sum = 0
+        
+        for category in categories: 
+            sum += df[column][category]
+
+        return sum
+    except Exception as e:
+        print(f"add_by_column: {e}")
+        return -9999999
 
 def sub_by_column(df: DataFrame, column: str, categories: list[str]) -> float:
     """ Allows the subtraction of the values ​​of a column according to the category 
@@ -30,16 +42,26 @@ def sub_by_column(df: DataFrame, column: str, categories: list[str]) -> float:
         Returns:
             float
     """
-    sub = 0
-    
-    for type in categories:
-        if(sub == 0): 
-            sub = df[column][type]
-            continue
+    try:
+        sub = 0
 
-        sub -= df[column][type]
+        missing = df_missing_columns(df, [column])
+        if(len(missing) > 0): raise Exception(f"The following columns do not exist in the dataframe: ", missing)
 
-    return sub
+        type_mission = serie_missing_columns(df[column], categories)
+        if(len(type_mission) > 0): raise Exception(f"The following categories do not exist in the dataframe: ", type_mission)
+        
+        for category in categories:
+            if(sub == 0): 
+                sub = df[column][category]
+                continue
+
+            sub -= df[column][category]
+
+        return sub
+    except Exception as e:
+        print(f"sub_by_column (exception): {e}")
+        return -9999999
 
 def calculate_by_grouped(
     df: DataFrame,
@@ -61,18 +83,26 @@ def calculate_by_grouped(
         Returns:
             float
     """
-    df_by_type = df.groupby(group_by)
+    try:
+        missing = df_missing_columns(df, [group_by, column])
 
-    sum_by_type = df_by_type.sum()
+        if(len(missing) > 0): raise Exception(f"The following columns do not exist in the dataframe: ", missing)
+        if(not is_str(df, group_by)): raise Exception("Group by categorical column only")
+        if(not is_numeric(df, column)):  raise Exception("Only operation by column numeric")
 
-    result = 0
+        df_by_type = df.groupby(group_by).sum()
 
-    match operation:
-        case "sum": result = add_by_column(sum_by_type, column, categories)
-        case "sub": result = sub_by_column(sum_by_type, column, categories)
-        case _: result = 0
+        result = 0
 
-    return round(result, 2)
+        match operation:
+            case "sum": result = add_by_column(df_by_type, column, categories)
+            case "sub": result = sub_by_column(df_by_type, column, categories)
+            case _: raise Exception("Only add or sub operations can be performed")
+
+        return round(result, 2)
+    except Exception as e:
+        print(f"calculate_by_grouped (exception): {e}")
+        return -9999999
 
 def count_by_column(df: DataFrame, column: str) -> dict:
     """ Counts the number of records by the selected column 
@@ -84,4 +114,12 @@ def count_by_column(df: DataFrame, column: str) -> dict:
         Returns:
             dict
     """
-    return df[column].value_counts().to_dict()
+    try:
+        missing = df_missing_columns(df, [column])
+        
+        if(len(missing) > 0): raise Exception(f"The following columns do not exist in the dataframe: ", missing)
+
+        return df[column].value_counts().to_dict()
+    except Exception as e:
+        print(f"count_by_column (exception): {e}")
+        return {}

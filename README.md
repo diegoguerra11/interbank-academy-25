@@ -2,7 +2,7 @@
 
 ![Logo](./assets/logo.svg)
 
-## Introducción
+## Introduction
 
 The project carried out in the Python programming language aims to analyze a dataset called ``data.csv`` that is in the .csv format. This analysis can be performed through different libraries such as Pandas, which was used on this occasion, with the objective of performing the following analyses:
 
@@ -15,7 +15,7 @@ The project carried out in the Python programming language aims to analyze a dat
 - **Transaction Count:**  
    Calculate the total number of transactions grouped by type ('Credit' and 'Debit')."
 
-## Instrucciones de Ejecución
+## Execution Instructions
 
 1. Clone this repository to your local machine:
    ```bash
@@ -48,7 +48,7 @@ The project carried out in the Python programming language aims to analyze a dat
    python main.py
    ```
 
-## Enfoque y Solución
+## Approach and Solution
 
 El enfoque principal del proyecto es trabajar con columnas de datos numéricos y categóricos en un DataFrame para aplicar operaciones matemáticas de forma eficiente. Las principales operaciones que se pueden realizar incluyen:
 
@@ -58,7 +58,7 @@ El enfoque principal del proyecto es trabajar con columnas de datos numéricos y
 
 El objetivo es proporcionar una estructura flexible que permita aplicar diversas transformaciones sobre los datos, facilitando su análisis y posterior utilización en informes o exportaciones.
 
-## Estructura del Proyecto
+## Project Structure
 
 ```
 /tu-repositorio

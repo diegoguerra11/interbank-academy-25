@@ -1,5 +1,7 @@
 from pandas import Series
 
+from utils.validations import serie_missing_columns
+
 def dict_to_str(dict: dict, end: str = " ") -> str:
     """ Converts a dict to a str 
 
@@ -10,13 +12,16 @@ def dict_to_str(dict: dict, end: str = " ") -> str:
         Returns:
             str
     """
+    try:
+        s = ""
 
-    s = ""
-
-    for n in dict:
-        s += f"{n}: {dict[n]}{end}"
-    
-    return s
+        for n in dict:
+            s += f"{n}: {dict[n]}{end}"
+        
+        return s
+    except Exception as e:
+        print(f"dict_to_str (exception): {e}")
+        return "error"
 
 def serie_to_str(serie: Series, columns:list[str], end=" ") -> str:
     """ Converts a series to a str 
@@ -28,10 +33,16 @@ def serie_to_str(serie: Series, columns:list[str], end=" ") -> str:
         Returns:
             str
     """
+    try:
+        s = ""
+        
+        type_mission = serie_missing_columns(serie, columns)
+        if(len(type_mission) > 0): raise Exception(f"The following categories do not exist in the dataframe: ", type_mission)
 
-    s = ""
-
-    for column in columns:
-        s += f"{column.upper()}: {serie[column]}{end}"
-     
-    return s
+        for column in columns:
+            s += f"{column.upper()}: {serie[column]}{end}"
+        
+        return s
+    except Exception as e:
+        print(f"serie_to_str (exception): {e}")
+        return "error"
