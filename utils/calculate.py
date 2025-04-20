@@ -13,6 +13,8 @@ def add_by_column(df: DataFrame, column: str, categories: list[str]) -> float:
 
         Returns:
             float
+        
+        :raises: Exception: If any exception occurs, the message is returned and the -9999999 value is returned.            
     """
     try:
         missing = df_missing_columns(df, [column])
@@ -41,6 +43,8 @@ def sub_by_column(df: DataFrame, column: str, categories: list[str]) -> float:
 
         Returns:
             float
+        
+        :raises: Exception: If any exception occurs, the message is returned and the -9999999 value is returned.  
     """
     try:
         sub = 0
@@ -82,6 +86,8 @@ def calculate_by_grouped(
 
         Returns:
             float
+
+        :raises: Exception: If any exception occurs, the message is returned and the -9999999 value is returned.              
     """
     try:
         missing = df_missing_columns(df, [group_by, column])
@@ -113,6 +119,8 @@ def count_by_column(df: DataFrame, column: str) -> dict:
 
         Returns:
             dict
+
+        :raises: Exception: If any exception occurs, the message is returned and an empty dict is returned.
     """
     try:
         missing = df_missing_columns(df, [column])

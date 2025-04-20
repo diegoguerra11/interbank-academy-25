@@ -11,6 +11,8 @@ def dict_to_str(dict: dict, end: str = " ") -> str:
 
         Returns:
             str
+        
+        :raises: Exception: If any exception occurs, the message is returned and the "error" value is returned.
     """
     try:
         s = ""
@@ -32,6 +34,8 @@ def serie_to_str(serie: Series, columns:list[str], end=" ") -> str:
 
         Returns:
             str
+
+        :raises: Exception: If any exception occurs, the message is returned and the "error" value is returned.
     """
     try:
         s = ""
