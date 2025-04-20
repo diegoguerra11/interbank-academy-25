@@ -96,13 +96,14 @@ def calculate_by_grouped(
         if(not is_str(df, group_by)): raise Exception("Group by categorical column only")
         if(not is_numeric(df, column)):  raise Exception("Only operation by column numeric")
 
-        df_by_type = df.groupby(group_by).sum()
+        # group by the desired column and sum by column
+        sum_by_type = df.groupby(group_by).sum()
 
         result = 0
 
         match operation:
-            case "sum": result = add_by_column(df_by_type, column, categories)
-            case "sub": result = sub_by_column(df_by_type, column, categories)
+            case "sum": result = add_by_column(sum_by_type, column, categories)
+            case "sub": result = sub_by_column(sum_by_type, column, categories)
             case _: raise Exception("Only add or sub operations can be performed")
 
         return round(result, 2)
