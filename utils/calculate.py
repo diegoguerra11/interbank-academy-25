@@ -3,7 +3,7 @@ from pandas import DataFrame
 
 from utils.validations import is_str, is_numeric, df_missing_columns, serie_missing_columns
 
-def add_by_column(df: DataFrame, categorical_column: str, categories: list[str]) -> float:
+def add_by_categories(df: DataFrame, categorical_column: str, categories: list[str]) -> float:
     """ Allows the addition of the values ​​of a column according to the type 
            
         Args:
@@ -35,7 +35,7 @@ def add_by_column(df: DataFrame, categorical_column: str, categories: list[str])
         print(f"add_by_column: {e}")
         return -9999999
 
-def sub_by_column(df: DataFrame, categorical_column: str, categories: list[str]) -> float:
+def sub_by_categories(df: DataFrame, categorical_column: str, categories: list[str]) -> float:
     """ Allows the subtraction of the values ​​of a column according to the category 
         
         Args:
@@ -106,8 +106,8 @@ def calculate_by_grouped(
         result = 0
 
         match operation:
-            case "sum": result = add_by_column(sum_by_type, categorical_column, categories)
-            case "sub": result = sub_by_column(sum_by_type, categorical_column, categories)
+            case "sum": result = add_by_categories(sum_by_type, categorical_column, categories)
+            case "sub": result = sub_by_categories(sum_by_type, categorical_column, categories)
             case _: raise Exception("Only add or sub operations can be performed")
 
         return round(result, 2)
