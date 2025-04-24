@@ -35,6 +35,7 @@ def df_missing_columns(df: DataFrame, columns: list[str]) -> list[str]:
         Returns:
             list[str]
     """
+    # Search for columns that do not exist in the data frame and store them in an array, which will then be returned.
     not_exists = [col for col in columns if col not in df.columns]
     return not_exists
 
@@ -48,5 +49,6 @@ def serie_missing_columns(serie: Series, keys: list[str]) -> list[str]:
         Returns:
             list[str]
     """
+    # Searches for keys that do not exist in the series and stores them in an array, which will then be returned.
     not_exists = [col for col in keys if col not in serie.keys()]
     return not_exists
