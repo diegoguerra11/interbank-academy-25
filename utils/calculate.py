@@ -14,9 +14,10 @@ def add_by_categories(df: DataFrame, categorical_column: str, categories: list[s
         Returns:
             float
         
-        :raises: Exception: If any exception occurs, the message is returned and the -9999999 value is returned.            
+        :raises: Exception: If any exception occurs, the message is printed and the -9999999 value is returned.            
     """
     try:
+        #validations
         columns_missings = df_missing_columns(df=df, columns=[categorical_column])
         if(len(columns_missings) > 0): raise Exception(f"The following columns do not exist in the dataframe: ", columns_missings)
 
@@ -26,7 +27,8 @@ def add_by_categories(df: DataFrame, categorical_column: str, categories: list[s
         if(len(categories_missings) > 0): raise Exception(f"The following categories do not exist in the dataframe: ", categories_missings)
 
         sum = 0
-        
+
+        # sum the amounts of the categories (category 1 + category 2 + category n)
         for category in categories: 
             sum += df[categorical_column][category]
 
@@ -46,11 +48,12 @@ def sub_by_categories(df: DataFrame, categorical_column: str, categories: list[s
         Returns:
             float
         
-        :raises: Exception: If any exception occurs, the message is returned and the -9999999 value is returned.  
+        :raises: Exception: If any exception occurs, the message is printed and the -9999999 value is returned.  
     """
     try:
         sub = 0
 
+        #validations
         columns_missings = df_missing_columns(df=df, columns=[categorical_column])
         if(len(columns_missings) > 0): raise Exception(f"The following columns do not exist in the dataframe: ", columns_missings)
 
@@ -59,6 +62,7 @@ def sub_by_categories(df: DataFrame, categorical_column: str, categories: list[s
         categories_missings = serie_missing_columns(serie=df[categorical_column], keys=categories)
         if(len(categories_missings) > 0): raise Exception(f"The following categories do not exist in the dataframe: ", categories_missings)
         
+        # subtract the amounts of the categories (category 1 - category 2 - category n
         for category in categories:
             if(sub == 0): 
                 sub = df[categorical_column][category]
@@ -91,9 +95,10 @@ def calculate_by_grouped(
         Returns:
             float
 
-        :raises: Exception: If any exception occurs, the message is returned and the -9999999 value is returned.              
+        :raises: Exception: If any exception occurs, the message is printed and the -9999999 value is returned.              
     """
     try:
+        #validations
         columns_missings = df_missing_columns(df=df, columns=[grouping_column, categorical_column])
 
         if(len(columns_missings) > 0): raise Exception(f"The following columns do not exist in the dataframe: ", columns_missings)
@@ -105,6 +110,7 @@ def calculate_by_grouped(
 
         result = 0
 
+        # select the type of operation according to the operation variable
         match operation:
             case "sum": 
                 result = add_by_categories(
@@ -135,13 +141,15 @@ def count_by_column(df: DataFrame, column: str) -> dict:
         Returns:
             dict
 
-        :raises: Exception: If any exception occurs, the message is returned and an empty dict is returned.
+        :raises: Exception: If any exception occurs, the message is printed and an empty dict is returned.
     """
     try:
+        #validations
         columns_missings = df_missing_columns(df=df, columns=[column])
         
         if(len(columns_missings) > 0): raise Exception(f"The following columns do not exist in the dataframe: ", columns_missings)
 
+        # counts for each value in the column and returns a dict
         return df[column].value_counts().to_dict()
     except Exception as e:
         print(f"count_by_column (exception): {e}")

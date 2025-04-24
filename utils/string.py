@@ -12,11 +12,12 @@ def dict_to_str(dict: dict, end: str = " ") -> str:
         Returns:
             str
         
-        :raises: Exception: If any exception occurs, the message is returned and the "error" value is returned.
+        :raises: Exception: If any exception occurs, the message is printed and the "error" value is returned.
     """
     try:
         s = ""
-
+        
+        # concatenates each key-value of a dict into a string
         for n in dict:
             s += f"{n}: {dict[n]}{end}"
         
@@ -35,14 +36,16 @@ def serie_to_str(serie: Series, columns:list[str], end=" ") -> str:
         Returns:
             str
 
-        :raises: Exception: If any exception occurs, the message is returned and the "error" value is returned.
+        :raises: Exception: If any exception occurs, the message is printed and the "error" value is returned.
     """
     try:
         s = ""
         
+        #validaions
         type_mission = serie_missing_columns(serie, columns)
         if(len(type_mission) > 0): raise Exception(f"The following categories do not exist in the dataframe: ", type_mission)
 
+        # concatenates each key-value in the series based on the selected columns into a string
         for column in columns:
             s += f"{column.upper()}: {serie[column]}{end}"
         
