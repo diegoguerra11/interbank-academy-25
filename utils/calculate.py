@@ -17,12 +17,12 @@ def add_by_categories(df: DataFrame, categorical_column: str, categories: list[s
         :raises: Exception: If any exception occurs, the message is returned and the -9999999 value is returned.            
     """
     try:
-        columns_missings = df_missing_columns(df, [categorical_column])
+        columns_missings = df_missing_columns(df=df, columns=[categorical_column])
         if(len(columns_missings) > 0): raise Exception(f"The following columns do not exist in the dataframe: ", columns_missings)
 
         if(not is_numeric(df, categorical_column)): raise Exception("only numeric column")
 
-        categories_missings = serie_missing_columns(df[categorical_column], categories)
+        categories_missings = serie_missing_columns(serie=df[categorical_column], keys=categories)
         if(len(categories_missings) > 0): raise Exception(f"The following categories do not exist in the dataframe: ", categories_missings)
 
         sum = 0
@@ -51,12 +51,12 @@ def sub_by_categories(df: DataFrame, categorical_column: str, categories: list[s
     try:
         sub = 0
 
-        columns_missings = df_missing_columns(df, [categorical_column])
+        columns_missings = df_missing_columns(df=df, columns=[categorical_column])
         if(len(columns_missings) > 0): raise Exception(f"The following columns do not exist in the dataframe: ", columns_missings)
 
         if(not is_numeric(df, categorical_column)): raise Exception("only numeric column")
 
-        categories_missings = serie_missing_columns(df[categorical_column], categories)
+        categories_missings = serie_missing_columns(serie=df[categorical_column], keys=categories)
         if(len(categories_missings) > 0): raise Exception(f"The following categories do not exist in the dataframe: ", categories_missings)
         
         for category in categories:
@@ -94,11 +94,11 @@ def calculate_by_grouped(
         :raises: Exception: If any exception occurs, the message is returned and the -9999999 value is returned.              
     """
     try:
-        columns_missings = df_missing_columns(df, [grouping_column, categorical_column])
+        columns_missings = df_missing_columns(df=df, columns=[grouping_column, categorical_column])
 
         if(len(columns_missings) > 0): raise Exception(f"The following columns do not exist in the dataframe: ", columns_missings)
-        if(not is_str(df, grouping_column)): raise Exception("Group by categorical column only")
-        if(not is_numeric(df, categorical_column)):  raise Exception("Only operation by column numeric")
+        if(not is_str(df=df, column=grouping_column)): raise Exception("Group by categorical column only")
+        if(not is_numeric(df=df, column=categorical_column)):  raise Exception("Only operation by column numeric")
 
         # group by the desired column and sum by column
         sum_by_type = df.groupby(grouping_column).sum()
@@ -106,8 +106,18 @@ def calculate_by_grouped(
         result = 0
 
         match operation:
-            case "sum": result = add_by_categories(sum_by_type, categorical_column, categories)
-            case "sub": result = sub_by_categories(sum_by_type, categorical_column, categories)
+            case "sum": 
+                result = add_by_categories(
+                    df=sum_by_type,
+                    categorical_column=categorical_column,
+                    categories=categories
+                )
+            case "sub": 
+                result = sub_by_categories(
+                    df=sum_by_type,
+                    categorical_column=categorical_column,
+                    categories=categories
+                )
             case _: raise Exception("Only add or sub operations can be performed")
 
         return round(result, 2)
@@ -128,7 +138,7 @@ def count_by_column(df: DataFrame, column: str) -> dict:
         :raises: Exception: If any exception occurs, the message is returned and an empty dict is returned.
     """
     try:
-        columns_missings = df_missing_columns(df, [column])
+        columns_missings = df_missing_columns(df=df, columns=[column])
         
         if(len(columns_missings) > 0): raise Exception(f"The following columns do not exist in the dataframe: ", columns_missings)
 
