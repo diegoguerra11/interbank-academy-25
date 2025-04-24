@@ -20,7 +20,7 @@ def add_by_column(df: DataFrame, categorical_column: str, categories: list[str])
         columns_missings = df_missing_columns(df, [categorical_column])
         if(len(columns_missings) > 0): raise Exception(f"The following columns do not exist in the dataframe: ", columns_missings)
 
-        if(not is_str(df, categorical_column)): raise Exception("only category column")
+        if(not is_numeric(df, categorical_column)): raise Exception("only numeric column")
 
         categories_missings = serie_missing_columns(df[categorical_column], categories)
         if(len(categories_missings) > 0): raise Exception(f"The following categories do not exist in the dataframe: ", categories_missings)
@@ -54,7 +54,7 @@ def sub_by_column(df: DataFrame, categorical_column: str, categories: list[str])
         columns_missings = df_missing_columns(df, [categorical_column])
         if(len(columns_missings) > 0): raise Exception(f"The following columns do not exist in the dataframe: ", columns_missings)
 
-        if(not is_str(df, categorical_column)): raise Exception("only category column")
+        if(not is_numeric(df, categorical_column)): raise Exception("only numeric column")
 
         categories_missings = serie_missing_columns(df[categorical_column], categories)
         if(len(categories_missings) > 0): raise Exception(f"The following categories do not exist in the dataframe: ", categories_missings)
