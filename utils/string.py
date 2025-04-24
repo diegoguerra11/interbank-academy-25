@@ -45,7 +45,7 @@ def serie_to_str(serie: Series, columns:list[str], end=" ") -> str:
         type_mission = serie_missing_columns(serie, columns)
         if(len(type_mission) > 0): raise Exception(f"The following categories do not exist in the dataframe: ", type_mission)
 
-        # concatenates each key-value in the series based on the selected columns into a string
+        # concatenates each key-value in the series into a string, based on the selected columns
         for column in columns:
             s += f"{column.upper()}: {serie[column]}{end}"
         
